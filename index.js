@@ -3,43 +3,90 @@
 // const sw = new Stopwatch()
 // in the console. Then run methods using sw.duration, sw.start, ..., syntax
 
-function Stopwatch() {
-    let startTime;
-    let endTime;
-    let running;
-    let duration = 0;
+// function Stopwatch() {
+//     let startTime;
+//     let endTime;
+//     let running;
+//     let duration = 0;
 
-    this.start = function() {
-        if (running)
-            throw new Error ('Stopwatch has already started.');
+//     this.start = function() {
+//         if (running)
+//             throw new Error ('Stopwatch has already started.');
 
-        running = true;
+//         running = true;
 
-        startTime = new Date();
-    };
-    
-    this.stop = function() {
-        if (!running)
-            throw new Error ('Stopwatch is not started.')
-        
-        running = false;
+//         startTime = new Date();
+//     };
 
-        endTime = new Date();
+//     this.stop = function() {
+//         if (!running)
+//             throw new Error ('Stopwatch is not started.')
 
-        const seconds = (endTime.getTime() - startTime.getTime()) / 1000;
-        duration += seconds;
-    };
-    
-    this.reset = function() {
-        startTime = null;
-        endTime = null;
-        running = false;
-        duration = 0;
-    };
+//         running = false;
 
-    Object.defineProperty(this, 'duration',{
-        get: function() {
-            return duration; 
-        }
-    });
+//         endTime = new Date();
+
+//         const seconds = (endTime.getTime() - startTime.getTime()) / 1000;
+//         duration += seconds;
+//     };
+
+//     this.reset = function() {
+//         startTime = null;
+//         endTime = null;
+//         running = false;
+//         duration = 0;
+//     };
+
+//     Object.defineProperty(this, 'duration',{
+//         get: function() {
+//             return duration; 
+//         }
+//     });
+// }
+
+
+
+
+//A function that applies parent methods to child methods
+function extend(Child, Parent) {
+    Child.prototype = Object.create(Parent.prototype)
+    Child.prototype.constructor = Child; //resets constructor
 }
+
+//Parent object
+function Shape() {
+}
+
+Shape.prototype.duplicate = function () {
+    console.log('duplicate');
+}
+
+
+function Circle() {
+}
+
+extend(Circle, Shape);
+
+//overrides 'duplicate' from parent
+Circle.prototype.duplicate = function () {
+    console.log('duplicate circle');
+}
+
+
+function Square() {
+}
+
+extend(Square, Shape);
+
+//overrieds 'duplicate' from parent
+Square.prototype.duplicate = function () {
+    console.log('duplicate square');
+}
+
+const shapes = [
+    new Circle(),
+    new Square()
+];
+
+for (let shape of shapes)
+    shape.duplicate();
