@@ -47,46 +47,80 @@
 
 
 
-//A function that applies parent methods to child methods
-function extend(Child, Parent) {
-    Child.prototype = Object.create(Parent.prototype)
-    Child.prototype.constructor = Child; //resets constructor
+// //A function that applies parent methods to child methods
+// function extend(Child, Parent) {
+//     Child.prototype = Object.create(Parent.prototype)
+//     Child.prototype.constructor = Child; //resets constructor
+// }
+
+// //Parent object
+// function Shape() {
+// }
+
+// Shape.prototype.duplicate = function () {
+//     console.log('duplicate');
+// }
+
+
+// function Circle() {
+// }
+
+// extend(Circle, Shape);
+
+// //overrides 'duplicate' from parent
+// Circle.prototype.duplicate = function () {
+//     console.log('duplicate circle');
+// }
+
+
+// function Square() {
+// }
+
+// extend(Square, Shape);
+
+// //overrieds 'duplicate' from parent
+// Square.prototype.duplicate = function () {
+//     console.log('duplicate square');
+// }
+
+// const shapes = [
+//     new Circle(),
+//     new Square()
+// ];
+
+// for (let shape of shapes)
+//     shape.duplicate();
+
+
+
+
+//Exercise: Create an object with two methods--one istance and one prototype method
+//Add child object that inherets those two methods, and that passes an array. 
+//Add instance methods to second object that add and remove items from array.
+
+function HtmlElement() {
+    this.click = function() {
+        console.log('clicked')
+    }
+
+    HtmlElement.prototype.focus = function() {
+        console.log('focused')
+    }
 }
 
-//Parent object
-function Shape() {
+
+function HtmlSelectElement(...items) {
+    this.items = [...items];
+
+    this.addItem = function(item) {
+        this.items.push(item);
+    }
+
+    this.removeItem = function(item) {
+        let indexNum = this.items.indexOf(item);
+        this.items.splice(indexNum,1);
+    }
 }
 
-Shape.prototype.duplicate = function () {
-    console.log('duplicate');
-}
-
-
-function Circle() {
-}
-
-extend(Circle, Shape);
-
-//overrides 'duplicate' from parent
-Circle.prototype.duplicate = function () {
-    console.log('duplicate circle');
-}
-
-
-function Square() {
-}
-
-extend(Square, Shape);
-
-//overrieds 'duplicate' from parent
-Square.prototype.duplicate = function () {
-    console.log('duplicate square');
-}
-
-const shapes = [
-    new Circle(),
-    new Square()
-];
-
-for (let shape of shapes)
-    shape.duplicate();
+HtmlSelectElement.prototype = new HtmlElement();
+HtmlSelectElement.prototype.constructor = HtmlSelectElement;
