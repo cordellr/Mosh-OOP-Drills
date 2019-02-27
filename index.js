@@ -98,6 +98,41 @@
 //Add child object that inherets those two methods, and that passes an array. 
 //Add instance methods to second object that add and remove items from array.
 
+// function HtmlElement() {
+//     this.click = function() {
+//         console.log('clicked')
+//     }
+
+//     HtmlElement.prototype.focus = function() {
+//         console.log('focused')
+//     }
+// }
+
+
+// function HtmlSelectElement(...items) {
+//     this.items = [...items];
+
+//     this.addItem = function(item) {
+//         this.items.push(item);
+//     }
+
+//     this.removeItem = function(item) {
+//         let indexNum = this.items.indexOf(item);
+//         this.items.splice(indexNum,1);
+//     }
+// }
+
+// HtmlSelectElement.prototype = new HtmlElement();
+// HtmlSelectElement.prototype.constructor = HtmlSelectElement;
+
+
+
+
+
+//Extension of previous exercise. Turns array items into html "option" elements within "select" element.
+//Also added new HtmlImageElement that inherits from HtmlElement, and has own "render()" method.
+//Create new HtmlSelectElement and HtmlImageElement  and run .render() with them
+
 function HtmlElement() {
     this.click = function() {
         console.log('clicked')
@@ -120,7 +155,30 @@ function HtmlSelectElement(...items) {
         let indexNum = this.items.indexOf(item);
         this.items.splice(indexNum,1);
     }
+
+    this.render = function() {
+        return `
+        <select>${this.items.map(item => `
+        <option>${item}</option>`).join('')}
+        </select>
+        `;
+        //arrow function above maps and returns each item within an <option> element
+        //.join prevent comma from being placed between mapped items
+    }
 }
 
 HtmlSelectElement.prototype = new HtmlElement();
 HtmlSelectElement.prototype.constructor = HtmlSelectElement;
+
+
+function HtmlImageElement(src) {
+    this.src = src;
+
+    this.render = function() {
+        return `<img src="${this.src}" />`
+    }
+}
+
+HtmlImageElement.prototype = new HtmlElement();
+HtmlImageElement.prototype.constructor = HtmlImageElement;
+
