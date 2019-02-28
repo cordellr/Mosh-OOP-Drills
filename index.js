@@ -133,52 +133,93 @@
 //Also added new HtmlImageElement that inherits from HtmlElement, and has own "render()" method.
 //Create new HtmlSelectElement and HtmlImageElement  and run .render() with them
 
-function HtmlElement() {
-    this.click = function() {
-        console.log('clicked')
+// function HtmlElement() {
+//     this.click = function() {
+//         console.log('clicked')
+//     }
+
+//     HtmlElement.prototype.focus = function() {
+//         console.log('focused')
+//     }
+// }
+
+
+// function HtmlSelectElement(...items) {
+//     this.items = [...items];
+
+//     this.addItem = function(item) {
+//         this.items.push(item);
+//     }
+
+//     this.removeItem = function(item) {
+//         let indexNum = this.items.indexOf(item);
+//         this.items.splice(indexNum,1);
+//     }
+
+//     this.render = function() {
+//         return `
+//         <select>${this.items.map(item => `
+//         <option>${item}</option>`).join('')}
+//         </select>
+//         `;
+//         //arrow function above maps and returns each item within an <option> element
+//         //.join prevent comma from being placed between mapped items
+//     }
+// }
+
+// HtmlSelectElement.prototype = new HtmlElement();
+// HtmlSelectElement.prototype.constructor = HtmlSelectElement;
+
+
+// function HtmlImageElement(src) {
+//     this.src = src;
+
+//     this.render = function() {
+//         return `<img src="${this.src}" />`
+//     }
+// }
+
+// HtmlImageElement.prototype = new HtmlElement();
+// HtmlImageElement.prototype.constructor = HtmlImageElement;
+
+
+
+
+
+//Exercise: created a stack with a private array that could not be accessed by user.
+//can only use push and pop to manipulate the values in the array.
+
+const _items = new WeakMap();
+
+class Stack {
+    constructor() {
+        _items.set(this, []);
     }
 
-    HtmlElement.prototype.focus = function() {
-        console.log('focused')
+    push(obj) {
+        _items.get(this).push(obj);
     }
+
+    pop() {
+        const items = _items.get(this);
+
+        if (items.length === 0)
+            throw new Error('Stack is empty.');
+
+        return items.pop();
+    }
+
+    peek() {
+        const items = _items.get(this);
+
+        if (items.length === 0)
+            throw new Error('Stack is empty');
+
+        return items[items.length - 1]; //returns most recent element added
+    }
+
+    get count() {
+        return _items.get(this).length;
+    }
+
 }
-
-
-function HtmlSelectElement(...items) {
-    this.items = [...items];
-
-    this.addItem = function(item) {
-        this.items.push(item);
-    }
-
-    this.removeItem = function(item) {
-        let indexNum = this.items.indexOf(item);
-        this.items.splice(indexNum,1);
-    }
-
-    this.render = function() {
-        return `
-        <select>${this.items.map(item => `
-        <option>${item}</option>`).join('')}
-        </select>
-        `;
-        //arrow function above maps and returns each item within an <option> element
-        //.join prevent comma from being placed between mapped items
-    }
-}
-
-HtmlSelectElement.prototype = new HtmlElement();
-HtmlSelectElement.prototype.constructor = HtmlSelectElement;
-
-
-function HtmlImageElement(src) {
-    this.src = src;
-
-    this.render = function() {
-        return `<img src="${this.src}" />`
-    }
-}
-
-HtmlImageElement.prototype = new HtmlElement();
-HtmlImageElement.prototype.constructor = HtmlImageElement;
-
